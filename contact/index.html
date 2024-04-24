@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leave a suggestion</title>
+    <style>
+        /* Dark mode CSS styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #333;
+            color: #fff;
+        }
+        header {
+            background-color: #222;
+            padding: 20px;
+            text-align: center;
+        }
+        main {
+            padding: 20px;
+        }
+        form {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+        input[type="text"],
+        input[type="email"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #444;
+            color: #fff;
+        }
+        input[type="submit"] {
+            background-color: #dbdbdb;
+            color: black;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #8e8e8e;
+        }
+        .success-message {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Leave a suggestion</h1>
+    </header>
+
+    <main>
+        <form id="contactForm" action="#" method="post">
+            <p>help me improve the website (please do not spam or i will remove it)</p>
+            <label for="name">Your Name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="email">Your Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="message">Message:</label>
+            <textarea id="message" name="message" rows="5" required></textarea>
+
+            <input type="submit" value="Submit">
+        </form>
+        <div id="successMessage" class="success-message" style="display: none;">Your message has been sent successfully!</div>
+    </main>
+
+    <script>
+        // Add event listener to form submission
+        document.getElementById('contactForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission
+            
+            // Get form data
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+
+            // Construct message to send to Discord webhook
+            const discordMessage = {
+                content: `New suggestion (nj pepper goon site) ${name} (${email}): ${message}`
+            };
+
+            // please don't delete my webhook
+            fetch('https://discord.com/api/webhooks/1230645317993631846/lYjWZtXkVyDwYJFfiJUGl-61sM_bAXPIFvl_OtZ99zRXPP7U_aLtbuW1hw7sj0tv6Qtf', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(discordMessage)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to send message to Discord webhook');
+                }
+                console.log('Message sent successfully');
+                // Show success message to the user
+                document.getElementById('successMessage').style.display = 'block';
+                // Optionally, you can redirect the user to a thank you page or show a success message here
+            })
+            .catch(error => {
+                console.error('Error sending message:', error);
+                // Optionally, you can show an error message to the user here
+            });
+        });
+    </script>
+</body>
+</html>
